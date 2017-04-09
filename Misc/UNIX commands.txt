@@ -1,0 +1,55 @@
+UNIX Commands:
+--------------
+
+ls			List all files (no hidden files/directories such as . or ..)
+
+ls -a 		List all files including hidden files (such as . and ..) 
+
+ls -pla 	List all hidden files, list the files as a "long form" with all the details, and add the slashes at the end to show which are files and which are directories (this is what the p does) 
+
+pwd 		Print working directory (the hierarchy of "where am I")
+
+cd 			Change working directory 
+
+mkdir 		Create directory. Example: mkdir myNewDirectory
+
+rmdir 		Delete directory 
+
+rm 			Delete files (and directories if used recursively). 
+			Example: rm -rf tempDirectory (this will remove tempDirectory recursively and do it without asking - this is what the f does, to get prompted for y/n use the i switch) 
+
+mv 			Move or rename files and directories. 
+			Example: mv myfile myNewDirectory (this will move myfile into myNewDirectory)
+
+cp 			Copy files and directories. 
+			Example: cp myfile myfile_backup (this copies the file myfile into a new file called myfile_backup)  
+
+alias 		Create a shortcut for running a program. 
+			Example: alias l="ls -pla --color=auto" (Then on the next line all you need to type is l instead of typing out the initial long command)
+
+touch 		This either creates a file if one wasn't there by that name, or it updates the timestamp for that file to the current time 
+
+echo 		Sends character data to standard out. Example: echo text (this will print "text" to the terminal) 
+
+echo -e 	Echo with the -e switch means to interpret special characters, so \n actually makes a new line. 
+			Example: echo -e "test text\nnext line" (this will print "test text" on one line and "next line" on the following line) 
+
+cat 		Concatenates files together (character data) and sends its data to standard out. 
+			Example1: cat file1 (this will then display the contents of the file1 file) Example2: cat file1 file2 (this will display the contents of file1 first and then the contents of file2 right after) 
+
+>			This redirects stdout. Tells stdout to open a different file for writing to. This modifies stdout to point to a file instead of pointing to the terminal.
+			Example: echo -e "ham\nturkey\nbeef" > foodlist (this will NOT display the text on the screen but instead the text will be redirected inside of the file named foodlist)
+			Therefore, if you next type ls then the foodlist file should show up and then if you do cat foodlist then you should see the contents of the foodlist file 
+			
+sort 		Takes data from stdin OR a file and sends the data, aphabetically sorted by line, to stdout. 
+			Using the foodlist file from the above example, if you type: sort foodlist (you will then get the same list but sorted in aphabetical order) 
+			
+< 			This redirects stdin. This tells stdin to open a different file for reading from. 
+ 
+
+
+
+Standard In (0) - stdin
+Standard Out (1) - stdout 
+Standard Error (2) - stderr
+*By default stdin stdout and stderr point to the terminal      	
