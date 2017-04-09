@@ -11,7 +11,11 @@ pwd 		Print working directory (the hierarchy of "where am I")
 
 cd 			Change working directory 
 
-mkdir 		Create directory. Example: mkdir myNewDirectory
+clear 		Clear the screen
+
+mkdir 		Create directory. 
+			Example: mkdir myNewDirectory
+			Example2: mkdir CS344; touch CS344/fileInCS344 
 
 rmdir 		Delete directory 
 
@@ -35,7 +39,9 @@ echo -e 	Echo with the -e switch means to interpret special characters, so \n ac
 			Example: echo -e "test text\nnext line" (this will print "test text" on one line and "next line" on the following line) 
 
 cat 		Concatenates files together (character data) and sends its data to standard out. 
-			Example1: cat file1 (this will then display the contents of the file1 file) Example2: cat file1 file2 (this will display the contents of file1 first and then the contents of file2 right after) 
+			Example1: cat file1 (this will then display the contents of the file1 file) 
+			Example2: cat file1 file2 (this will display the contents of file1 first and then the contents of file2 right after) 
+			Example3: cat foodlist fishlist > biglist (this takes the data from the first two files and puts them into a file named biglist) 
 
 >			This redirects stdout. Tells stdout to open a different file for writing to. This modifies stdout to point to a file instead of pointing to the terminal.
 			Example: echo -e "ham\nturkey\nbeef" > foodlist (this will NOT display the text on the screen but instead the text will be redirected inside of the file named foodlist)
@@ -43,11 +49,37 @@ cat 		Concatenates files together (character data) and sends its data to standar
 			
 sort 		Takes data from stdin OR a file and sends the data, aphabetically sorted by line, to stdout. 
 			Using the foodlist file from the above example, if you type: sort foodlist (you will then get the same list but sorted in aphabetical order) 
+			Example2: sort < foodlist > sortedList (this takes in the data from the foodlist file, data is sorted and then the data is written to the file sortedList)
+			
+sort -nr 	Conducts a numeric sort (instead of an alphabetic sort) and sorts in revers order 
+			Example: cat rowfile | sort -nr >> rowfile 
 			
 < 			This redirects stdin. This tells stdin to open a different file for reading from. 
+			Example: sort < foodlist (this takes the foodlist file and directs it to standard in which then sort takes and sorts)
+			
+* 			Shell filename expansion - this matches anything (matches any number of characters).
+			Example: ls CS344* (This lists all files in the current directory whos names START with CS344 as well as files with any other characters in the name after CS344)
+			Example2: ls *CS344* (List all files in the current directory that have CS344 somewhere in their name, could be characters before and could be characters after)
+
+? 			Shell filename expansion - this matches any one character
+			Example: ls */*CS344? (Give me all the files in any sub-directory that begins with anything but has CS344 in it at the end and has only ONE character at the end after CS344) 
+			
+|			Pipes - provies a way to communicate between commands without using temporary files to hold the data. 
+			Example: cat foodlist | sort (This will display the data from the foodlist file in sorted order)
+			Example2: cat foodlist | sort > sortedList (same as above but instead of just displaying it to the terminal it sends the data to the sortedList file) 
+			
+more 		This command takes character data and displays only one screen-full at a time. You can navigate with up, down, spacebar (to advance) and q to quit 
+
+>> 			This operator APPENDS character data to the end of a file, as opposed to REPLACING the contents of an existing file as > does.			
+			Example: echo -e "1\n2\n3\n4\n5" > rowfile (this adds the data in quotes to the rofile file) 
+			Example2: echo -e "6\n7\n8\n9\n10" >> rowfile (this adds this new data onto the already existing rowfile file) 
+			
+man 		The man program lets you learn about individual commands available in the shell. The manual is organized into sections based on the type of command.
+			Example: man ls (this will show the man page for ls) 
  
 
-
+Misc UNIX notes:
+----------------
 
 Standard In (0) - stdin
 Standard Out (1) - stdout 
