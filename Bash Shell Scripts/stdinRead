@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# This program captures data coming in from stdin and then dumps it into a file
+# Note: on this first line below, cat is not given an argument so it just takes 
+# input from stdin and dumps to the file tempfile2. Therefore, the cursor will 
+# just stay on the next line, the user will enter in text and then the user will 
+# need to hit CTRL-D when done entering text.
+
+cat > "tempfile2"
+cat tempfile
+
+# Another use for this file would be to take the contents of test_file and then 
+# pipe that through which turns the file contents into stdin. The stdinRead program 
+# is then able to capture all of the data coming from stdin, dump it into a file and 
+# then print it back out to the screen. Now not only do we have a printout but we also 
+# now have a file to do things with.
+# Example: cat test_file | stdinRead

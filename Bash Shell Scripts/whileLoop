@@ -1,0 +1,17 @@
+#!/bin/bash
+i=0
+while test $i -ne 2
+do
+	printf "i = $i, not stopping yet\n"
+	i=$(expr $i + 1)
+done
+printf "stopping, i = $i\n"
+
+# When run, this will print:
+# i = 0, not stopping yet
+# i = 1, not stopping yet
+# Stopping, i = 2
+
+# Note: test can also be written as square brackets:
+# while [ $i -ne 2 ] 
+

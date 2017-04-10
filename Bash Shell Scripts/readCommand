@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# This script demonstrates the use of the read command
+
+echo "Enter in a string, then hit enter:"
+read myvar
+echo "You entered: $myvar"
+echo $myvar > "tempfilename$$"
+echo $myvar >> "tempfilename$$"
+echo $myvar >> "tempfilename$$"
+echo "The temp file contents are:"
+cat "tempfilename$$"
+echo "The first line of the file is:"
+read entireline < "tempfilename$$"
+echo "$entireline"
+read firstword restofline < "tempfilename$$"
+echo "First word of first line: \"$firstword\""
+echo "Rest of line: \"$restofline\""
+rm -f "tempfilename$$" 
+
+# Output when this script is run:
+# Enter in a string, then hit enter:
+# This sentence is False
+# You entered: This sentence is False
+# The temp file contents are:
+# This sentence is False
+# This sentence is False
+# This sentence is False
+# The first line of the file is:
+# This sentence is False
+# First word of first line: "This"
+# Rest of line: "sentence is False"

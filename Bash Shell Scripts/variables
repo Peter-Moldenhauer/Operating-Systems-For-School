@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Variables can be created by simply asigning a value to them:
+myint=1
+mystr=Peter
+mystr=123
+
+# Note: there is very weak typing, so telling if a variable is a number or string is not needed
+# Variables are assumed to be of any data type, its the usage of them that defines the type
+
+# Get the value back out of a variable by using the $ operator in front of the variable:
+echo $mystr
+
+# The printf command takes a single argument worth of text,
+# this is different than echo which can take multiple words all as separate arguments 
+# and output them all
+
+printf 'Hello my name is $mystr\n'
+# This will display: Hello my name is $mystr - note the use of SINGLE QUOTES
+
+printf "Hello my name is $mystr\n"
+# This will display: Hello my name is Peter - DOUBLE QUOTES expands variables
+
+# The backslash character \ means to evaluate literally, instead of interpret
+printf "\$mystr"
+# The above line will display: $mystr - Even though it is inside double quotes  

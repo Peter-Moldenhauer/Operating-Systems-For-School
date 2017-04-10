@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# The purpose of this script is that we are going to read each line in a file 
+# and echo it back out. We don't know how many lines are in the file. However, 
+# the loop takes care of that. 
+
+while read myLine
+do
+	echo "$myLine"
+done < $1 
+
+# Run this program with test_file like so: readLoop test_file
+# This will then output the contents of test_file, line by line  

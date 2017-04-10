@@ -1,0 +1,13 @@
+#!/bin/bash
+array=( one two three )
+for i in "${array[@]}"
+do
+	echo $i
+done
+
+# Output:
+# one
+# two 
+# three
+
+# Note: "${array[@]}" is the same as "one two three"

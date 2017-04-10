@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# The comments will show the output when run as: shellParameters 12 345
+
+echo "All parameters: $@"
+# All parameters: 12 345
+
+echo "Number of parameters: $#"
+# Number of parameters: 2
+
+echo "Parameter 0 (aka name of script): $0"
+# Parameter 0 (aka name of script): ./shellParameters
+
+echo "Parameter 1 (first argument of script): $1"
+# Parameter 1 (first argument of script): 12
+
+echo "Process ID of this shell script: $$"
+# Process ID of this shell script: 7610
+
+echo "Going to run 'ls':"
+# Going to run 'ls':
+
+ls
+# file1 shellParameters tempDir forLoop
+
+echo "Return value of ls command: $?"
+# Return value of ls command: 0

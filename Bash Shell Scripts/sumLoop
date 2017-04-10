@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# This sums the numbers in a file where that file consists of just 1 number per line
+
+sum=0
+TMP1=./tempfile
+echo -e "8\n7\n6" > $TMP1
+
+while read num
+do
+	echo "In Loop"
+	echo "num: $num"
+	sum=`expr $sum + $num`
+	echo "sum: $sum"
+	echo -e "End of Loop\n"
+done < $TMP1
+
+# Output:
+# In Loop
+# num: 8
+# sum: 8
+# End of Loop
+
+# In Loop
+# num: 7
+# sum: 15
+# End of Loop
+
+# In Loop
+# num: 6
+# sum: 21
+# End of Loop 

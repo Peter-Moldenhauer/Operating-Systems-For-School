@@ -1,0 +1,6 @@
+#!/bin/bash
+# The above line is the "shebang" line
+# The shebang line tells UNIX the path to the shell with which to interpret the script
+# Other than the shebang line, lines beginning with # are comments
+
+echo Hello World!

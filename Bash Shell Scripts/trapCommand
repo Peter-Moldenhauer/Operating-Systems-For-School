@@ -1,0 +1,12 @@
+#!/bin/bash
+TMP="myCoolFileName$$"
+# TMP contains the name of the file we will be using, 
+# however, as of this moment, it is only a name of a string - its not a file yet, just a string 
+# Note that the double $ symbols mean to get the value of the process ID number, this 
+# will be added onto the end of myCoolFileName to create a unique string each time
+trap "rm -f $TMP; echo 'CTRL+C received, exiting'; exit 1" INT HUP TERM
+echo "lotsa text" > $TMP
+while [ 1 -ne 2 ]
+do
+	echo "Never ending loop - hit CTRL+C to exit!"
+done  

@@ -1,0 +1,14 @@
+#!/bin/bash
+# For-loop example, i is the variable we will be incrementing.
+# The i variable will sequentially hold the following values: a b c d
+# Then, in each instance of the loop, print the value of the i variable
+# Note: the printf is not printing out new lines in the loop so print a new line at the end
+
+for i in a b c d
+do
+	printf "<%s>" $i
+done
+printf "\n"
+
+# The above code will print: <a><b><c><d> 
+ 
