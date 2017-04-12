@@ -1,0 +1,201 @@
+#!/bin/bash
+
+########################################################
+# Name: Peter Moldenhauer
+# Date: 4/10/17
+# Description: This bash shell script calculates mean
+# averages and medians of numbers that can be input to 
+# the script either a file or via stdin. The script 
+# can calculate the mean and median across the rows or 
+# down the columns.
+########################################################
+
+
+# Input file 
+inputFile=$2
+
+# Global Variables
+average=0
+median=0
+
+
+# If there are no arguments, then print error and exit
+if [[ $# -eq 0 ]]
+then
+	echo "./stats {-rows|-cols} [file]" >&2
+	exit 1
+
+# Else if there are more than 2 arguments, print error and exit
+elif [[ $# -gt 2 ]] 
+then
+	echo "./stats {-rows|-cols} [file]" >&2
+	exit 1
+fi
+
+# If there are two arguments...
+if [[ $# -eq 2 ]]; then
+	# If the first argument is not valid, print error and exit
+	if [[ $1 != -r* ]] && [[ $1 != -c* ]]
+	then
+		echo "./stats {-rows|-cols} [file]" >&2
+		exit 1
+
+	# Else if the second argument is not a valid file or cant read file, print error and exit
+	elif [[ ! -f $inputFile ]] || [[ ! -r $inputFile ]]
+	then
+		echo "./stats: cannot read $inputFile" >&2
+		exit 1
+
+	# Else if the provided input file is empty, print error and exit
+	elif [[ ! -s $inputFile ]]
+	then
+		echo "Provided input file is empty!" >&2
+		exit 1	
+
+	# Else copy input file contents into a new file
+	else
+		#echo "Moving inputFile contents into a new file"
+		cat $inputFile > tempFile$$
+		#echo "The temp file contents are:"
+		#cat tempFile$$
+		#rm -f "tempFile$$"
+	fi
+fi
+
+# If there is only one argument...
+if [[ $# -eq 1 ]]; then
+	# If the argument is not valid, print error and exit
+	if [[ $1 != -r* ]] && [[ $1 != -c* ]] 
+	then
+		echo "./stats {-rows|-cols} [file]" >&2
+		exit 1
+	
+	# Else get input data via stdin and put in a new file
+	else
+		cat > tempFile$$
+		echo >> tempFile$$
+		#echo -e "\nThe temp file contents are:"
+		#cat tempFile$$
+	fi
+fi
+
+# Catch interrupt, hangup and terminate signals with trap to remove temp file
+trap "rm -f tempFile$$ tempFile2$$ aFile$$ mFile$$ aFile2$$ mFile2$$; echo 'CTRL-C received, exiting'; exit 1" INT HUP TERM
+
+# Calculate average and median across the rows
+if [[ $1 == -r* ]]
+then
+	echo "Average Median"
+	
+	while read line
+	do
+		# Count the number of numbers per row
+		rowSize=($(echo $line | wc -w))
+		#printf '%s\n' "Numbers per row: $rowSize"
+
+		# Move each element in row to its own line for easy calculation
+		rowToColumn=$(echo $line | tr "\t" "\n")
+
+		# Calculate the sum of all the numbers in the row
+		rowSum=0
+		for i in $rowToColumn
+		do
+			rowSum=$(expr $i + $rowSum)
+		done
+
+		# Calculate average
+		average=$(expr $rowSum + $(expr $rowSize / 2)) #Rounding integer division
+
+		# Make sure there is not division by 0
+		if [[ $rowSize == 0 ]]
+		then
+			average=""
+		else
+			average=$(expr $average / $rowSize)
+		fi
+
+		# Calculate median
+		# Sort numbers and place in a temp file 
+		echo $rowToColumn | tr " " "\n" | sort -g > tempFile2$$
+
+		# Get position by fetching the middle position of sorted numbers
+		medianPosition=$(expr $rowSize / 2 + 1)
+
+		# Get the value in the specific position
+		# Source: https://www.cyberciti.biz/faq/bash-scripting-using-awk/
+		median=$(awk 'NR=='$medianPosition'' tempFile2$$) 
+
+		# Print calculated data
+		echo -e "$average\t$median"  
+ 
+	done <tempFile$$
+fi
+
+# Calculate average and median down the columns
+if [[ $1 == -c* ]]
+then
+	#echo "Averages:"
+
+	# Get column size
+	columnSize=$(cut -c 1 tempFile$$ | wc -w)
+
+	# Get the first line and number of columns
+	firstLine=$(head -n 1 tempFile$$)
+	numberOfColumns=($(echo $firstLine | wc -w))
+
+	#echo "Column Size: $columnSize"
+	#echo "First Line: $firstLine"
+	#echo "Num of Columns: $numberOfColumns"
+
+	# For every column in the file do the following
+	for i in $(seq 1 $numberOfColumns)
+	do
+		# Split up each column to calculate...
+		toColumn=$(cut -f $i tempFile$$ | tr "\t" "\n")
+
+		# Calculate sum of each column
+		columnSum=0
+		for j in $toColumn
+		do
+			columnSum=$(expr $j + $columnSum)
+		done
+		
+		# Calculate average
+		average=$(expr $columnSum + $(expr $columnSize / 2)) #Rounding integer division
+		
+		# Cant divide by zero
+		if [[ $columnSize == 0 ]]
+		then
+			average=""
+		else
+			average=$(expr $average / $columnSize)
+		fi
+
+		# Calculate median
+		echo $toColumn | tr " " "\n" | sort -g > tempFile2$$
+
+		# Get position by getting the middle position of the sorted numbers
+		medianPosition=$(expr $columnSize / 2 + 1)
+
+		# Get value at specific position
+		median=$(awk 'NR=='$medianPosition'' tempFile2$$)
+
+		# Move averages and medians to files
+		echo -e "$average" >> aFile$$
+		echo -e "$median" >> mFile$$
+	done 	
+
+	# Change up \n's to \t's
+	cat aFile$$ | tr '\n' '\t' > aFile2$$
+	cat mFile$$ | tr '\n' '\t' > mFile2$$
+
+	# Display results
+	echo "Averages: "
+	cat aFile2$$
+	printf "\n"
+	echo "Medians: "
+	cat mFile2$$
+	printf "\n"
+fi
+
+rm -f "tempFile$$" "tempFile2$$" "aFile$$" "mFile$$" "aFile2$$" "mFile2$$"
