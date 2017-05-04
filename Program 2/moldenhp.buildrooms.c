@@ -61,7 +61,7 @@ int main()
     // Create directory to store the room files in
     char theDirectory[30];
     sprintf(theDirectory, "moldenhp.rooms.%d", pid);
-    mkdir(theDirectory);  // --> On school server switch to --> mkdir(theDirectory, 0777);
+    mkdir(theDirectory, 0777);  // --> On WINDOWS switch to --> mkdir(theDirectory);
 
     // Build up the 7 rooms
     // Note: even though there are a total of 10 possible room names, we only need 7 of the 10 created
@@ -288,7 +288,7 @@ void _printFileContents(struct allRooms *roomContainer, int roomID, char *fileNa
     }
 
     // print the room type to the file
-    fprintf(fileOut, "ROOM TYPE: %s", thisRoom->roomType);
+    fprintf(fileOut, "ROOM TYPE: %s\n", thisRoom->roomType);
 
     // close the file
     fclose(fileOut);
@@ -304,10 +304,10 @@ void freeMemory(struct allRooms *roomContainer){
     // free mem in each room in the allRooms struct
     int i;
     for(i = 0; i < roomContainer->numberOfRooms; i++){
-        free(roomContainer->roomsArray[i]->name); // free the name
+        //free(roomContainer->roomsArray[i]->name); // free the name
         free(roomContainer->roomsArray[i]->roomConnections); // free the connections
-        free(roomContainer->roomNames[i]);
-        roomContainer->roomNames[i] = NULL;
+        //free(roomContainer->roomNames[i]);
+        //roomContainer->roomNames[i] = NULL;
         free(roomContainer->roomsArray[i]);
         roomContainer->roomsArray[i] = NULL;
     }
@@ -320,6 +320,9 @@ void freeMemory(struct allRooms *roomContainer){
     roomContainer->numberOfRooms = 0;
     roomContainer->roomNames = NULL;
     roomContainer->roomsArray = NULL;
+
+    free(roomContainer);
+    roomContainer = NULL; 	
 }
 
 
